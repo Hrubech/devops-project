@@ -4,7 +4,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jamy-22.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 }
 
@@ -25,7 +25,7 @@ module "security_groups" {
   security_groups_name  = var.security_groups_name
   security_groups_ports = var.security_groups_ports
   protocol              = var.protocol
-  depends_on = [ module.keypair ]
+  depends_on            = [module.keypair]
 }
 
 module "ec2_docker" {
@@ -39,7 +39,7 @@ module "ec2_docker" {
   instance_name        = local.instance_name
   instance_type        = var.instance_type
   count                = var.stack == "docker" ? 1 : 0
-  depends_on = [ module.keypair ]
+  depends_on           = [module.keypair]
 }
 
 module "ec2_kubernetes" {
@@ -53,5 +53,5 @@ module "ec2_kubernetes" {
   instance_name        = local.instance_name
   instance_type        = var.instance_type
   count                = var.stack == "kubernetes" ? 1 : 0
-  depends_on = [ module.keypair ]
+  depends_on           = [module.keypair]
 }

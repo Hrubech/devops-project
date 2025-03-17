@@ -17,7 +17,7 @@ resource "aws_instance" "ec2_project" {
       private_key = file(var.private_key_path)
       host        = self.public_ip
     }
-    script = ["./scripts/kubernetes.sh"]
+    scripts = ["./scripts/kubernetes.sh"]
   }
   provisioner "local-exec" {
     command = "echo Your Public IP Address: ${self.public_ip} >> ./ip/kubernetes_ip.txt"
