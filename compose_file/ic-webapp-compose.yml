@@ -1,0 +1,9 @@
+services:
+  ic-webapp:
+    container_name: ic-webapp
+    ports:
+      - "9090:8080"
+    image: hrubech/ic-webapp:1.0
+    environment:
+      - "ODOO_URL=http://62.169.27.128:8069/"
+      - "PGADMIN_URL=http://62.169.27.128:5050/"
