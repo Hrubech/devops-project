@@ -1,4 +1,7 @@
 resource "aws_security_group" "sg_project" {
+  name   = var.security_groups_name
+  vpc_id = var.vpc_id
+
   dynamic "ingress" {
     for_each = var.security_groups_ports
     content {

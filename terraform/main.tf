@@ -14,6 +14,17 @@ locals {
   instance_name = var.stack
 }
 
+module "vpc" {
+  source   = "./modules/vpc"
+  vpc_cidr = var.vpc_cidr
+  vpc_name = "project_vpc"
+}
+
+module "subnets" {
+  source = "./modules/subnets"
+  vpc_id = module.vpc.vpc_id
+}
+
 module "keypair" {
   source   = "./modules/keypair"
   key_name = var.stack
@@ -22,6 +33,7 @@ module "keypair" {
 
 module "security_groups" {
   source                = "./modules/security_group"
+  vpc_id                = module.vpc.vpc_id
   security_groups_name  = var.security_groups_name
   security_groups_ports = var.security_groups_ports
   protocol              = var.protocol
@@ -36,6 +48,8 @@ module "ec2_docker" {
   username         = var.username
   # security_groups_name = module.security_groups.sg_name
   security_groups_name = var.security_groups_name
+  security_group_id = var.security_group_id
+  subnet_id            = module.subnets.public_subnet_1_id
   instance_name        = local.instance_name
   instance_type        = var.instance_type
   count                = var.stack == "docker" ? 1 : 0
@@ -48,8 +62,10 @@ module "ec2_kubernetes" {
   key_name         = var.stack
   private_key_path = local.filename
   username         = var.username
+  subnet_id        = module.subnets.public_subnet_2_id
   # security_groups_name = module.security_groups.sg_name
   security_groups_name = var.security_groups_name
+  security_group_id = var.security_group_id
   instance_name        = local.instance_name
   instance_type        = var.instance_type
   count                = var.stack == "kubernetes" ? 1 : 0

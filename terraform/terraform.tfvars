@@ -1,3 +1,4 @@
+security_group_id = "sg-040416c5046399723"
 security_groups_name  = "sg_project"
 security_groups_ports = [22, 80, 8080, 8069, 30080, 30010, 30011]
 instance_type         = "t2.medium"

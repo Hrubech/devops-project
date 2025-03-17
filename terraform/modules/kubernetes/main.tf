@@ -2,7 +2,9 @@ resource "aws_instance" "ec2_project" {
   ami                         = var.ami
   key_name                    = var.key_name
   instance_type               = var.instance_type
-  security_groups             = ["${var.security_groups_name}"]
+  subnet_id                   = var.subnet_id
+  # security_groups             = ["${var.security_groups_name}"]
+  vpc_security_group_ids      = [var.security_group_id]
   associate_public_ip_address = true
   root_block_device {
     volume_size           = 20
